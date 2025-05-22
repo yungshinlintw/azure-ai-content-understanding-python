@@ -1,23 +1,37 @@
 {
-  "description": "Sample marketing video analyzer",
-  "scenario": "videoShot",
+  "description": "Sample product demo video analyzer",
+  "baseAnalyzerId": "prebuilt-videoAnalyzer",
   "config": {
-    "returnDetails": true
+    "locales": ["en-US", "fr-FR"],
+    "returnDetails": true,
+    "enableFace": false,
+    "disableFaceBlurring": false,
+    "personDirectoryId": null,
+    "segmentationMode": "auto",
+    "disableContentFiltering": false
   },
-  "fieldSchema": {
+   "fieldSchema": {
     "fields": {
-      "Description": {
-        "type": "string",
-        "description": "Detailed summary of the video segment, focusing on product characteristics, lighting, and color palette."
-      },
-      "Sentiment": {
-        "type": "string",
-        "method": "classify",
-        "enum": [
-          "Positive",
-          "Neutral",
-          "Negative"
-        ]
+      "Segments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "SegmentId": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string",
+              "method": "generate",
+              "description": "Detailed summary of the video segment, focusing on product characteristics, lighting, and color palette."
+            },
+            "Sentiment": {
+              "type": "string",
+              "method": "classify",
+              "enum": ["Positive", "Neutral", "Negative"]
+            }
+          }
+        }
       }
     }
   }

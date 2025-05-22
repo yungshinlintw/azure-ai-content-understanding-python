@@ -138,6 +138,9 @@ class AzureContentUnderstandingClient:
             with open(analyzer_template_path, "r") as file:
                 analyzer_template = json.load(file)
 
+
+        print(json.dumps(analyzer_template, indent=4))
+
         if not analyzer_template:
             raise ValueError("Analyzer schema must be provided.")
 
@@ -153,12 +156,18 @@ class AzureContentUnderstandingClient:
         headers = {"Content-Type": "application/json"}
         headers.update(self._headers)
 
-        response = requests.put(
-            url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
-            headers=headers,
-            json=analyzer_template,
-        )
-        response.raise_for_status()
+        try:
+            response = requests.put(
+                url=self._get_analyzer_url(self._endpoint, self._api_version, analyzer_id),
+                headers=headers,
+                json=analyzer_template,
+            )
+            response.raise_for_status()
+        except Exception as e:
+            self._logger.error(f"Error creating analyzer {analyzer_id}: {e}")
+            print(response.json())
+            raise e
+
         self._logger.info(f"Analyzer {analyzer_id} create request accepted.")
         return response
 

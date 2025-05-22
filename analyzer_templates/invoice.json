@@ -1,7 +1,14 @@
 {
   "description": "Sample invoice analyzer",
-  "scenario": "document",
-  "fieldSchema": {
+  "baseAnalyzerId": "prebuilt-documentAnalyzer",
+  "config": {
+    "returnDetails": true,
+    "enableFormula": false,
+    "disableContentFiltering": false,
+    "estimateFieldSourceAndConfidence": true,
+    "tableFormat": "html"
+  },
+ "fieldSchema": {
     "fields": {
       "VendorName": {
         "type": "string",
